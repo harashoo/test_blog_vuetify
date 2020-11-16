@@ -16,7 +16,11 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="orange" text>More</v-btn>
+            <router-link
+              :to="{ name: 'article-detail', params: { id: article.id } }"
+            >
+              <v-btn color="orange" text>More</v-btn>
+            </router-link>
           </v-card-actions>
         </v-card>
       </v-col>
