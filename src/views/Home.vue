@@ -1,64 +1,18 @@
 <template>
   <div>
     <v-row>
-      <v-col>
-        <v-card class="mx-auto" max-width="300">
+      <v-col v-for="article in articles" :key="article.id">
+        <v-card class="mx-auto" width="300" height="330">
           <v-img
             class="white--text align-end"
             height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            :src="article.image.url"
           >
-            <v-card-title>Top 10 Australian beaches</v-card-title>
+            <v-card-title>{{ article.title }}</v-card-title>
           </v-img>
 
           <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text>More</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-
-      <v-col>
-        <v-card class="mx-auto" max-width="300">
-          <v-img
-            class="white--text align-end"
-            height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>Top 10 Australian beaches</v-card-title>
-          </v-img>
-
-          <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text>More</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-
-      <v-col>
-        <v-card class="mx-auto" max-width="300">
-          <v-img
-            class="white--text align-end"
-            height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>Top 10 Australian beaches</v-card-title>
-          </v-img>
-
-          <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
-
-            <div>Whitsunday Island, Whitsunday Islands</div>
+            <div class="summary">{{ article.summary }}</div>
           </v-card-text>
 
           <v-card-actions>
@@ -71,7 +25,29 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "Home"
+  name: "Home",
+
+  data: () => ({
+    articles: []
+  }),
+
+  async mounted() {
+    const response = await axios.get(
+      "https://my-blog-harasho.microcms.io/api/v1/articles",
+      {
+        headers: { "X-API-KEY": process.env.VUE_APP_X_API_KEY }
+      }
+    );
+    this.articles = response.data.contents;
+  }
 };
 </script>
+
+<style scoped>
+.summary {
+  white-space: pre-wrap;
+}
+</style>
