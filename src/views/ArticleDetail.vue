@@ -5,13 +5,14 @@
     <v-card-title>{{ article.title }}</v-card-title>
 
     <v-card-text>
-      <div>{{ article.body }}</div>
+      <div v-html="sanitizedBody"></div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import axios from "axios";
+import sanitizeHtml from "sanitize-html";
 
 export default {
   name: "ArticleDetail",
@@ -19,6 +20,14 @@ export default {
   data: () => ({
     article: {}
   }),
+
+  computed: {
+    sanitizedBody() {
+      return sanitizeHtml(this.article.body, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"])
+      });
+    }
+  },
 
   async mounted() {
     const response = await axios.get(
