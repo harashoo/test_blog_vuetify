@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import ArticleDetail from "../views/ArticleDetail.vue";
+
+const Home = () => import("../views/Home.vue");
+const ArticleDetail = () => import("../views/ArticleDetail.vue");
 
 Vue.use(VueRouter);
 
